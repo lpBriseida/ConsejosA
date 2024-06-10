@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Varela+Round&display=swap" rel="stylesheet">
+    <title>Consejos Aleatorios</title>
+    <style>
+        body {
+            background-color: #cbf3f0;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        main {
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            top: 50px;
+            left: 450px;
+        }
+        .caja {
+            background-color: #cbf3f0;
+            border: 2px solid #2ec4b6;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px black;
+            text-align: center;
+        }
+        header{
+            margin-top: 70px;
+        }
+        h1 {
+            color: #000000;
+            text-align: center;
+            margin: 30px;
+        }
+        .caja h3 {
+            margin: 0;
+            color: #000000;
+            text-shadow: 1px 1px #faedcd;
+        }
+        .caja:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffbf69;
+            color: #000000;
+            cursor: pointer;
+            position: absolute;
+            left: 900px;
+            top: 250px;
+        }
+        button:hover {
+            background-color: #ff9f1c;
+        }
+        .sticker {
+            position: absolute;
+        }
+        #sticker1 {
+            left: 220px;
+            top: 100px;
+        }
+        #sticker2 {
+            left: 940px;
+            top: 350px;
+        }
+        #sticker3{
+            left: 20px;
+            top: 0px;
+        }
+        #sticker4{
+            left: 850px;
+            top: 0px;
+        }
+        #sticker5{
+            left: 1100px;
+            top: 100px;
+        }
+        #flores {
+            left: 550px;
+            top: 350px;
+        }
+        #planta {
+            left: 100px;
+            top: 300px;
+        }
+    </style>
+</head>
+<body>
+    <img src="./sticker1.png" alt="sticker1" id="sticker1" class="sticker" width="200px">
+    <img src="./sticker2.png" alt="sticker2" id="sticker2" class="sticker" width="200px">
+    <img src="./sticker3.png" alt="sticker3" id="sticker3" class="sticker" width="200px">
+    <img src="./sticker4.png" alt="sticker4" id="sticker4" class="sticker" width="250px">
+    <img src="./sticker5.png" alt="sticker5" id="sticker5" class="sticker" width="150px">
+    <img src="./flores.png" alt="flores" id="flores" class="sticker" width="200px">
+    <img src="./planta.png" alt="planta" id="planta" class="sticker" width="200px">
+    
+    <header><h1>Consejos Aleatorios</h1></header>
+    <main id="datacontainer">
+    </main>
+    <button id="Button">Obtener otro consejo</button>
+    <script>
+        const API_URL = 'https://api.adviceslip.com/advice';
+        const datacontainer = document.getElementById('datacontainer');
+        const newAdviceButton = document.getElementById('Button');
+
+        // Función para obtener los datos del API
+        async function fetchData(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                displayData(data.slip);
+            } catch (error) {
+                console.error('Error al obtener datos:', error);
+                datacontainer.innerHTML = '<p>Hubo un error al cargar los datos.</p>';
+            }
+        }
+
+        // Función para mostrar los datos en el DOM
+        function displayData(advice) {
+            datacontainer.innerHTML = ''; // Limpiar el contenedor
+
+            const card = document.createElement('div');
+            card.classList.add('caja');
+
+            const adviceText = document.createElement('h3');
+            adviceText.textContent = `"${advice.advice}"`;
+
+            card.appendChild(adviceText);
+            datacontainer.appendChild(card);
+        }
+
+        // Agregar un evento al boton para obtener otro consejo
+        newAdviceButton.addEventListener('click', () => {
+            fetchData(API_URL);
+        });
+
+        fetchData(API_URL);
+    </script>
+</body>
+</html>
